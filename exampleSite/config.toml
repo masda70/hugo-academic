@@ -18,6 +18,11 @@ defaultContentLanguageInSubdir = false
 [blackfriday]
   hrefTargetBlank = true
 
+# Enable Piwik analytics by entering the Piwik's server url and site id
+# [params.piwik]
+#   url = ""
+#   siteId = 1
+
 [params]
   name = "Lena Smith"
   role = "Professor of Artificial Intelligence"

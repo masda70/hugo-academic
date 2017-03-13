@@ -8,6 +8,26 @@
     {{ range .Site.Params.custom_js }}
     <script src="{{ "/js/" | relURL }}{{ . }}"></script>
     {{ end }}
+    {{ if .Site.Params.Piwik }}
+    <!-- Piwik -->
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      // tracker methods like "setCustomDimension" should be called before "trackPageView"
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u={{ .Site.Params.Piwik.url }};
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', '{{ .Site.Params.Piwik.siteId }}']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <!-- End Piwik Code -->
+    <!-- Piwik Image Tracker-->
+    <noscript><img src="{{ .Site.Params.Piwik.url }}piwik.php?idsite={{ .Site.Params.Piwik.siteId }}&rec=1" style="border:0" alt="" /></noscript>
+    <!-- End Piwik -->
+    {{ end }}
 
     {{ with .Site.GoogleAnalytics }}
     <script>
