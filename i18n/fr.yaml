@@ -1,7 +1,7 @@
 # Navigation
 
 - id: toggle_navigation
-  translation: Ouvrir la barre de navigation
+  translation: Basculer la barre de navigation
 
 # Buttons
 
@@ -42,7 +42,7 @@
 # Posts widget
 
 - id: continue_reading
-  translation: CONTINUER DE LIRE
+  translation: POURSUIVRE LA LECTURE
 
 - id: more_posts
   translation: Plus de Posts
@@ -50,7 +50,7 @@
 # Talks widget
 
 - id: more_talks
-  translation: Plus de Présentations
+  translation: Plus d'Exposés
 
 # Publication/Talk details
 
@@ -67,7 +67,7 @@
   translation: Date
 
 - id: links
-  translation: Lien
+  translation: Liens
 
 - id: event
   translation: Événement
@@ -78,7 +78,7 @@
 # Filtering
 
 - id: filter_by_type
-  translation: Filtré par type
+  translation: Filtrer par type
 
 - id: filter_all
   translation: Tout
@@ -91,10 +91,10 @@
 # Default node titles
 
 - id: posts
-  translation: Posts
+  translation: Blog
 
 - id: publications
   translation: Publications
 
 - id: talks
-  translation: Présentations
+  translation: Exposés
