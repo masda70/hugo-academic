@@ -1,6 +1,10 @@
 {{ $ := .root }}
 {{ $page := .page }}
-{{ $talks_len := len (where $.Data.Pages "Type" "talk") }}
+{{ $talks := where $.Site.RegularPages "Section" "talk" }}
+{{ if hugo.IsMultilingual }}
+  {{ $talks = where $talks "Lang" $.Lang }}
+{{ end }}
+{{ $talks_len := len $talks }}
 
 <!-- Talks widget -->
 <div class="row">
@@ -20,12 +24,12 @@
     {{ with $page.Content }}<p>{{ . | markdownify }}</p>{{ end }}
 
     {{ if $page.Params.detailed_list }}
-    {{ range first $page.Params.count (where $.Data.Pages "Type" "talk") }}
+    {{ range first $page.Params.count $talks }}
     {{ partial "talk_li_detailed" . }}
     {{ end }}
     {{ else }}
     <ul class="fa-ul">
-      {{ range first $page.Params.count (where $.Data.Pages "Type" "talk") }}
+      {{ range first $page.Params.count $talks }}
       {{ partial "talk_li_simple" . }}
       {{ end }}
     </ul>

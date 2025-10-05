@@ -5,10 +5,32 @@
 <span id="homepage" style="display: none"></span>
 
 <!-- Widgets -->
-{{ range $index, $page := where .Data.Pages "Type" "home" }}
+{{ $home_pages := where .Site.RegularPages "Section" "home" }}
+{{ if hugo.IsMultilingual }}
+  {{ $home_pages = where $home_pages "Lang" $.Lang }}
+{{ end }}
+{{ $home_pages = sort $home_pages "Params.weight" }}
+{{ range $index, $page := $home_pages }}
   {{ $params := dict "root" $ "page" $page }}
   {{ $widget := printf "widgets/%s.html" ( or $page.Params.widget "custom" ) }}
-  <section id="{{ $page.File.TranslationBaseName }}" class="home-section">
+  {{ $.Scratch.Delete "widget_id" }}
+  {{ with $page.File }}
+    {{ $.Scratch.Set "widget_id" .TranslationBaseName }}
+  {{ end }}
+  {{ if not ($.Scratch.Get "widget_id") }}
+    {{ with $page.Params.widget }}
+      {{ $.Scratch.Set "widget_id" . }}
+    {{ end }}
+  {{ end }}
+  {{ if not ($.Scratch.Get "widget_id") }}
+    {{ with $page.Slug }}
+      {{ $.Scratch.Set "widget_id" . }}
+    {{ end }}
+  {{ end }}
+  {{ if not ($.Scratch.Get "widget_id") }}
+    {{ $.Scratch.Set "widget_id" (printf "section-%d" $index) }}
+  {{ end }}
+  <section id="{{ $.Scratch.Get "widget_id" }}" class="home-section">
     <div class="container">
       {{ partial $widget $params }}
     </div>

@@ -1,5 +1,9 @@
 {{ $ := .root }}
 {{ $page := .page }}
+{{ $publications := where $.Site.RegularPages "Section" "publication" }}
+{{ if hugo.IsMultilingual }}
+  {{ $publications = where $publications "Lang" $.Lang }}
+{{ end }}
 
 <!-- Selected Publications widget -->
 <div class="row">
@@ -11,12 +15,12 @@
     {{ with $page.Content }}<p>{{ . | markdownify }}</p>{{ end }}
 
     {{ if $page.Params.detailed_list }}
-    {{ range (where (where $.Data.Pages "Type" "publication") ".Params.selected" true) }}
+    {{ range (where $publications ".Params.selected" true) }}
     {{ partial "publication_li_detailed" . }}
     {{ end }}
     {{ else }}
     <ul class="fa-ul">
-      {{ range (where (where $.Data.Pages "Type" "publication") ".Params.selected" true) }}
+      {{ range (where $publications ".Params.selected" true) }}
       {{ partial "publication_li_simple" . }}
       {{ end }}
     </ul>
