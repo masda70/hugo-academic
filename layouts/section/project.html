@@ -1,0 +1,58 @@
+{{ partial "header.html" . }}
+{{ partial "navbar.html" . }}
+
+{{ if .Params.header.image }}
+<div class="article-header">
+  <img src="{{ "/img/" | relURL }}/{{ .Params.header.image }}" class="article-banner" itemprop="image">
+  {{ with .Params.header.caption }}<span class="article-header-caption">{{ . | markdownify | emojify }}</span>{{ end }}
+</div>
+{{end}}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>{{ .Title | default "Projects" }}</h1>
+
+      {{ with .Content }}
+      <div class="article-style" itemprop="articleBody">{{ . }}</div>
+      {{ end }}
+
+      {{ $projects := .Pages.ByDate.Reverse }}
+      {{ if hugo.IsMultilingual }}
+        {{ $projects = where $projects "Lang" .Lang }}
+      {{ end }}
+
+      <div id="container-projects" class="row isotope">
+
+        {{ range $project := $projects }}
+        {{ $.Scratch.Set "project_url" $project.Permalink }}
+        {{ $.Scratch.Set "target" "" }}
+        {{ if $project.Params.external_link }}
+        {{   $.Scratch.Set "project_url" $project.Params.external_link }}
+        {{   $.Scratch.Set "target" "target=\"_blank\"" }}
+        {{ end }}
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 project-item isotope-item {{ with .Params.tags }}{{ delimit . " " }}{{ end }}">
+          <div class="card">
+            {{ with $project.Params.image_preview }}
+            <a href="{{ $.Scratch.Get "project_url" }}" title="" class="card-image hover-overlay"
+               {{ $.Scratch.Get "target" | safeHTMLAttr }}>
+              <img src="{{ "/img/" | relURL }}{{ . }}" alt="" class="img-responsive">
+            </a>
+            {{ end }}
+            <div class="card-text">
+              <h4><a href="{{ $.Scratch.Get "project_url" }}" {{ $.Scratch.Get "target" | safeHTMLAttr }}>{{ .Title }}</a></h4>
+              <div class="card-desription">
+                {{ with $project.Params.summary }}<p>{{ . | markdownify }}</p>{{ end }}
+              </div>
+            </div>
+          </div>
+        </div>
+        {{ end }}
+
+      </div>
+
+    </div>
+  </div>
+</div>
+{{ partial "footer_container.html" . }}
+{{ partial "footer.html" . }}
